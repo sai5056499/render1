@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: render-claude-app
+    runtime: python
+    buildCommand: pip install -r render_app/requirements.txt
+    startCommand: gunicorn --bind :$PORT --workers 1 --threads 8 render_app.app:app
+    healthCheckPath: /
+    envVars:
+      - key: MCP_API_URL
+        value: "http://mcp-service:8080" # Replace with your MCP's actual internal URL if on same network.
